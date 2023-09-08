@@ -1,4 +1,4 @@
-import express from "express";
+import express, { request } from "express";
 import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
 import { Idea } from "./models/ideaModel.js";
@@ -17,7 +17,7 @@ app.get("/", (request, response) => {
 // POST to create a new idea
 // TODO: Connect this to the YouTube process or ChatGPT process
 // Mongoose is async, so can use it
-app.post("/idea", async (request, response) => {
+app.post("/ideas", async (request, response) => {
   try {
     if (
       !request.body.idea ||
@@ -68,6 +68,10 @@ app.get("/ideas/:id", async (request, response) => {
 
     const idea = await Idea.findById(id);
 
+    if (!idea) {
+      return response.status(404).json({ message: "Idea not found" });
+    }
+
     return response.status(200).json(idea);
   } catch (error) {
     console.log(error.message);
@@ -77,7 +81,50 @@ app.get("/ideas/:id", async (request, response) => {
 
 // Route to update the idea
 // use PUT to update the idea
-// app.put();
+app.put("/ideas/:id", async (request, response) => {
+  try {
+    if (
+      !request.body.idea ||
+      !request.body.viewsMedian ||
+      !request.body.likesMedian ||
+      !request.body.commentsMedian
+    ) {
+      return response.status(400).send({
+        message:
+          "Required fields are missing: Idea, View Median, Like Median, Comment Median",
+      });
+    }
+
+    const { id } = request.params;
+    const result = await Idea.findByIdAndUpdate(id, request.body);
+
+    if (!result) {
+      return response.status(404).json({ message: "Idea not found" });
+    }
+
+    return response.status(200).json({ message: "Idea updated successfully" });
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
+  }
+});
+
+// Route to delete the idea
+app.delete("/ideas/:id", async (request, response) => {
+  try {
+    const { id } = request.params;
+    const result = await Idea.findByIdAndDelete(id);
+
+    if (!result) {
+      return response.status(404).json({ message: "Idea not found" });
+    }
+
+    return response.status(200).send({ message: "Book deleted successfully" });
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
+  }
+});
 
 mongoose
   .connect(mongoDBURL)
