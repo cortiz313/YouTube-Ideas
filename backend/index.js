@@ -46,6 +46,39 @@ app.post("/idea", async (request, response) => {
   }
 });
 
+// Route to get all ideas from database
+app.get("/ideas", async (request, response) => {
+  try {
+    const ideas = await Idea.find({});
+    return response.status(200).json({
+      count: ideas.length,
+      data: ideas,
+    });
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
+  }
+});
+
+// Route to get one idea from database by id
+app.get("/ideas/:id", async (request, response) => {
+  // colon : means its a  parameter in the route
+  try {
+    const { id } = request.params;
+
+    const idea = await Idea.findById(id);
+
+    return response.status(200).json(idea);
+  } catch (error) {
+    console.log(error.message);
+    response.status(500).send({ message: error.message });
+  }
+});
+
+// Route to update the idea
+// use PUT to update the idea
+// app.put();
+
 mongoose
   .connect(mongoDBURL)
   .then(() => {
