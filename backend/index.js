@@ -3,11 +3,25 @@ import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
 import { Idea } from "./models/ideaModel.js";
 import ideasRoute from "./routes/ideasRoute.js";
+import cors from "cors";
 
 const app = express();
 
-// Middlewarefor parsing request body
+// Middleware for parsing request body
 app.use(express.json());
+
+// Middleware for handling CORS Policy
+// Option 1: Allow All Origins with default of cors (*)
+//app.use(cors());
+
+// Option 2: Allow Custom Origins
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: ["GET, POST, PUT, DELETE"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 
 // Route for / without anything else for testing
 app.get("/", (request, response) => {
