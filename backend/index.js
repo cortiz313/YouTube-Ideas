@@ -2,130 +2,22 @@ import express, { request } from "express";
 import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
 import { Idea } from "./models/ideaModel.js";
+import ideasRoute from "./routes/ideasRoute.js";
 
 const app = express();
 
 // Middlewarefor parsing request body
 app.use(express.json());
 
+// Route for / without anything else for testing
 app.get("/", (request, response) => {
   console.log(request);
-  return response.status(234).send("Welcome to MERN stack tutorial");
+  return response.status(234).send("The HTTP Route is working.");
 });
 
-// Route to save a new idea
-// POST to create a new idea
-// TODO: Connect this to the YouTube process or ChatGPT process
-// Mongoose is async, so can use it
-app.post("/ideas", async (request, response) => {
-  try {
-    if (
-      !request.body.idea ||
-      !request.body.viewsMedian ||
-      !request.body.likesMedian ||
-      !request.body.commentsMedian
-    ) {
-      return response.status(400).send({
-        message:
-          "Required fields are missing: Idea, View Median, Like Median, Comment Median",
-      });
-    }
-    const newIdea = {
-      idea: request.body.idea,
-      viewsMedian: request.body.viewsMedian,
-      likesMedian: request.body.likesMedian,
-      commentsMedian: request.body.commentsMedian,
-    };
+app.use("/ideas", ideasRoute); // for every route called with ideas, use this router
 
-    const idea = await Idea.create(newIdea);
-
-    return response.status(201).send(idea);
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-});
-
-// Route to get all ideas from database
-app.get("/ideas", async (request, response) => {
-  try {
-    const ideas = await Idea.find({});
-    return response.status(200).json({
-      count: ideas.length,
-      data: ideas,
-    });
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-});
-
-// Route to get one idea from database by id
-app.get("/ideas/:id", async (request, response) => {
-  // colon : means its a  parameter in the route
-  try {
-    const { id } = request.params;
-
-    const idea = await Idea.findById(id);
-
-    if (!idea) {
-      return response.status(404).json({ message: "Idea not found" });
-    }
-
-    return response.status(200).json(idea);
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-});
-
-// Route to update the idea
-// use PUT to update the idea
-app.put("/ideas/:id", async (request, response) => {
-  try {
-    if (
-      !request.body.idea ||
-      !request.body.viewsMedian ||
-      !request.body.likesMedian ||
-      !request.body.commentsMedian
-    ) {
-      return response.status(400).send({
-        message:
-          "Required fields are missing: Idea, View Median, Like Median, Comment Median",
-      });
-    }
-
-    const { id } = request.params;
-    const result = await Idea.findByIdAndUpdate(id, request.body);
-
-    if (!result) {
-      return response.status(404).json({ message: "Idea not found" });
-    }
-
-    return response.status(200).json({ message: "Idea updated successfully" });
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-});
-
-// Route to delete the idea
-app.delete("/ideas/:id", async (request, response) => {
-  try {
-    const { id } = request.params;
-    const result = await Idea.findByIdAndDelete(id);
-
-    if (!result) {
-      return response.status(404).json({ message: "Idea not found" });
-    }
-
-    return response.status(200).send({ message: "Book deleted successfully" });
-  } catch (error) {
-    console.log(error.message);
-    response.status(500).send({ message: error.message });
-  }
-});
-
+// Connecting to MongoDB with Mongoose
 mongoose
   .connect(mongoDBURL)
   .then(() => {
