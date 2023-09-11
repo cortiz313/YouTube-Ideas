@@ -38,7 +38,7 @@ export const ShowIdea = () => {
 
           <div className="my-4">
             <span className="text-xl mr-4 text-gray-500">Idea</span>
-            <span>{idea.idea}</span>
+            <span>{idea.title}</span>
           </div>
 
           <div className="my-4">

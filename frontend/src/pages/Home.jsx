@@ -40,7 +40,7 @@ export const Home = () => {
           <thead>
             <tr>
               <th className="border border-slate-600 rounded-md">No</th>
-              <th className="border border-slate-600 rounded-md">Idea</th>
+              <th className="border border-slate-600 rounded-md">Title</th>
               <th className="border border-slate-600 rounded-md">
                 Views Median
               </th>
@@ -60,7 +60,7 @@ export const Home = () => {
                   {index + 1}
                 </td>
                 <td className="border border-slate-700 rounded-md text-center">
-                  {idea.idea}
+                  {idea.title}
                 </td>
                 <td className="border border-slate-700 rounded-md text-center">
                   {idea.viewsMedian}

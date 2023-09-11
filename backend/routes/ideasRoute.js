@@ -11,18 +11,18 @@ const router = express.Router();
 router.post("/", async (request, response) => {
   try {
     if (
-      !request.body.idea ||
+      !request.body.title ||
       !request.body.viewsMedian ||
       !request.body.likesMedian ||
       !request.body.commentsMedian
     ) {
       return response.status(400).send({
         message:
-          "Required fields are missing: Idea, View Median, Like Median, Comment Median",
+          "Required fields are missing: Title, View Median, Like Median, Comment Median",
       });
     }
     const newIdea = {
-      idea: request.body.idea,
+      title: request.body.title,
       viewsMedian: request.body.viewsMedian,
       likesMedian: request.body.likesMedian,
       commentsMedian: request.body.commentsMedian,
@@ -75,14 +75,14 @@ router.get("/:id", async (request, response) => {
 router.put("/:id", async (request, response) => {
   try {
     if (
-      !request.body.idea ||
+      !request.body.title ||
       !request.body.viewsMedian ||
       !request.body.likesMedian ||
       !request.body.commentsMedian
     ) {
       return response.status(400).send({
         message:
-          "Required fields are missing: Idea, View Median, Like Median, Comment Median",
+          "Required fields are missing: Title, View Median, Like Median, Comment Median",
       });
     }
 
