@@ -1,0 +1,8 @@
+idea JSON
+
+{
+    "title": "this is a new idea",
+    "viewsMedian": 300,
+    "likesMedian" : 20,
+    "commentsMedian": 10
+}
