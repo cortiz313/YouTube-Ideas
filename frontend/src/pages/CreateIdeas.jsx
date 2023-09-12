@@ -3,6 +3,7 @@ import BackButton from "../components/BackButton";
 import Spinner from "../components/Spinner";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 export const CreateIdeas = () => {
   const [title, setTitle] = useState("");
@@ -11,6 +12,8 @@ export const CreateIdeas = () => {
   const [commentsMedian, setCommentsMedian] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
+
   const handleSaveIdea = () => {
     const data = {
       title,
@@ -23,11 +26,13 @@ export const CreateIdeas = () => {
       .post("http://localhost:5555/ideas", data)
       .then(() => {
         setLoading(false);
+        enqueueSnackbar("Idea created successfully.", { variant: "success" });
         navigate("/");
       })
       .catch((error) => {
         setLoading(false);
-        alert("An error happened. Please check console.");
+        //alert("An error happened. Please check console.");
+        enqueueSnackbar("Idea creation failed.", { variant: "error" });
         console.log(error);
       });
   };

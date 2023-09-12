@@ -3,6 +3,7 @@ import BackButton from "../components/BackButton";
 import Spinner from "../components/Spinner";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSnackbar } from "notistack";
 
 export const EditIdea = () => {
   const [title, setTitle] = useState("");
@@ -12,6 +13,7 @@ export const EditIdea = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
   useEffect(() => {
     setLoading(true);
     axios
@@ -42,11 +44,13 @@ export const EditIdea = () => {
       .put(`http://localhost:5555/ideas/${id}`, data)
       .then(() => {
         setLoading(false);
+        enqueueSnackbar("Idea edited successfully.", { variant: "success" });
         navigate("/");
       })
       .catch((error) => {
         setLoading(false);
-        alert("An error happened. Please check console.");
+        //alert("An error happened. Please check console.");
+        enqueueSnackbar("Idea edit failed.", { variant: "error" });
         console.log(error);
       });
   };
