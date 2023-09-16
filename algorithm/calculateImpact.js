@@ -35,17 +35,25 @@ function likesToViewsImpactfulness(likes, views) {
 }
 
 function calculateOverallImpactfulness(likes, comments, views) {
-  // Define weights for likes and comments
-  const likesWeight = 0.6; // Adjust the weight as needed, now likes more important
-  const commentsWeight = 0.4; // Adjust the weight as needed
-
-  // Calculate impactfulness scores using the provided functions
-  const likesImpact = likesToViewsImpactfulness(likes, views);
-  const commentsImpact = commentsToViewsImpactfulness(comments, views);
-
-  // Combine impactfulness scores with weights
-  const overallImpactfulness =
+  // Calculate the impactfulness score as before
+  const likesWeight = 0.4;
+  const commentsWeight = 0.6;
+  const likesImpact = likes / views;
+  const commentsImpact = comments / views;
+  const impactfulness =
     likesImpact * likesWeight + commentsImpact * commentsWeight;
 
-  return overallImpactfulness;
+  // Scale the impactfulness score to the 0-100 range
+  const minImpactfulness = 0; // Minimum possible impactfulness score
+  const maxImpactfulness = 1; // Maximum possible impactfulness score
+  const scaledImpactfulness =
+    ((impactfulness - minImpactfulness) /
+      (maxImpactfulness - minImpactfulness)) *
+    10000;
+
+  return scaledImpactfulness;
 }
+
+module.exports = {
+  calculateOverallImpactfulness,
+};
