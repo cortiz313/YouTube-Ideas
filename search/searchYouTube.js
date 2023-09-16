@@ -35,7 +35,7 @@ const searchAndFetchStatistics = () => {
     .search.list({
       key: process.env.YOUTUBE_TOKEN,
       part: "snippet",
-      q: "Better Ideas",
+      q: "best ships starfield",
       maxResults: 3,
     })
     .then((response) => {
