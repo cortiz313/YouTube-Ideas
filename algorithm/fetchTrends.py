@@ -11,5 +11,5 @@ def get_trending_queries(keyword):
     return trending_queries.to_json()
 
 if __name__ == "__main__":
-    results = get_trending_queries('javascript coding')
+    results = get_trending_queries('reddit computer science')
     print(results)
