@@ -132,7 +132,7 @@ exec(`python ${fetchTrendsScriptPath}`, (error, stdout, stderr) => {
         key: process.env.YOUTUBE_TOKEN,
         part: "snippet",
         q: query,
-        maxResults: 20,
+        maxResults: 25,
       });
 
       const { data } = response;
@@ -208,5 +208,5 @@ exec(`python ${fetchTrendsScriptPath}`, (error, stdout, stderr) => {
   // topTwoTrends.forEach((trend) => {
   //   searchAndFetchStatistics(trend);
   // });
-  searchAndFetchStatistics("starfield");
+  searchAndFetchStatistics("computer science internship");
 });
