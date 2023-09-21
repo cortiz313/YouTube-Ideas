@@ -135,7 +135,7 @@ const searchAndFetchStatistics = async (query) => {
       key: process.env.YOUTUBE_TOKEN,
       part: "snippet",
       q: query,
-      maxResults: 5,
+      maxResults: 25,
     });
 
     const { data } = response;
@@ -211,4 +211,4 @@ const searchAndFetchStatistics = async (query) => {
 // topTwoTrends.forEach((trend) => {
 //   searchAndFetchStatistics(trend);
 // });
-searchAndFetchStatistics("youtube videos for beginners");
+searchAndFetchStatistics("sony a74");

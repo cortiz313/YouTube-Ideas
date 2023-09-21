@@ -1,0 +1,5 @@
+There does not appear to be a way to identify from any of the parts of a video or channel list request in the YouTube v3 Data API to tell if a video is a Short or not. Could we get this officially supported?
+
+One (unofficial) workaround right now is to construct a URL using 'shorts' and the video ID (e.g. https://www.youtube.com/shorts/v=B-s71n0dHUk and then see if you get a 303 redirect (not a Short) or a 200 HTTP status report (Short).
+
+because if it works, its a short. only shorts have that /shorts/ in the url
