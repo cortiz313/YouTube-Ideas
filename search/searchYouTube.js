@@ -135,7 +135,10 @@ const searchAndFetchStatistics = async (query) => {
       key: process.env.YOUTUBE_TOKEN,
       part: "snippet",
       q: query,
-      maxResults: 25,
+      maxResults: 100,
+      order: "viewCount", // Sort by view count
+      publishedAfter: "2023-08-21T00:00:00Z",
+      regionCode: "US",
     });
 
     const { data } = response;
@@ -196,6 +199,8 @@ const searchAndFetchStatistics = async (query) => {
 
     writeVideosToFile(videoData, query); // Write filtered videos to file
 
+    // API call to post in DATABASE
+
     return videoData;
   } catch (error) {
     throw new Error(
@@ -211,4 +216,4 @@ const searchAndFetchStatistics = async (query) => {
 // topTwoTrends.forEach((trend) => {
 //   searchAndFetchStatistics(trend);
 // });
-searchAndFetchStatistics("sony a74");
+searchAndFetchStatistics("money");

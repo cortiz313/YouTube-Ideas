@@ -29,6 +29,15 @@ app.get("/", (request, response) => {
   return response.status(234).send("The HTTP Route is working.");
 });
 
+app.get("/api/videos", (req, res) => {
+  try {
+    const videoData = JSON.parse(fs.readFileSync("google_step_data.json"));
+    res.json(videoData);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 app.use("/ideas", ideasRoute); // for every route called with ideas, use this router
 
 // Connecting to MongoDB with Mongoose
