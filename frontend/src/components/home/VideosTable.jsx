@@ -3,7 +3,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { BsInfoCircle } from "react-icons/bs";
 import { MdOutlineAddBox, MdOutlineDelete } from "react-icons/md";
 
-export const IdeasTable = ({ videos }) => {
+export const VideosTable = ({ videos }) => {
   return (
     <table className="w-full border-separate border-spacing-2">
       <thead>
@@ -76,4 +76,4 @@ export const IdeasTable = ({ videos }) => {
   );
 };
 
-export default IdeasTable;
+export default VideosTable;

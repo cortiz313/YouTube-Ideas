@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { AiOutlineEdit } from "react-icons/ai";
 import { BsInfoCircle } from "react-icons/bs";
 import { MdOutlineAddBox, MdOutlineDelete } from "react-icons/md";
-import IdeasTable from "../components/home/IdeasTable";
+import VideosTable from "../components/home/VideosTable";
 import IdeasCard from "../components/home/IdeasCard";
 
 // To continue with this, make sure you npm run dev frontend and backend
@@ -68,7 +68,7 @@ export const Home = () => {
       {loading ? (
         <Spinner />
       ) : showType === "table" ? (
-        <IdeasTable videos={videos} />
+        <VideosTable videos={videos} />
       ) : (
         <IdeasCard ideas={ideas} />
       )}
