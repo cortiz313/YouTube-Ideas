@@ -35,12 +35,25 @@ const {
 require("dotenv").config();
 const fs = require("fs");
 
+const addCommas = (number) => {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
+
 const writeVideosToFile = (videos, query) => {
   const filteredVideos = videos.filter(
     (video) => video.moreViewsThanSubscribers
   );
 
-  const jsonData = JSON.stringify(filteredVideos, null, 2);
+  // Format numbers with commas
+  const formattedVideos = filteredVideos.map((video) => ({
+    ...video,
+    views: addCommas(video.views),
+    likes: addCommas(video.likes),
+    comments: addCommas(video.comments),
+    subscribers: addCommas(video.subscribers),
+  }));
+
+  const jsonData = JSON.stringify(formattedVideos, null, 2);
 
   fs.writeFile(`${query}_filteredVideos.json`, jsonData, (err) => {
     if (err) {
@@ -136,7 +149,7 @@ const searchAndFetchStatistics = async (query) => {
       key: process.env.YOUTUBE_TOKEN,
       part: "snippet",
       q: query,
-      maxResults: 100,
+      maxResults: 50,
       order: "viewCount", // Sort by view count
       publishedAfter: "2023-08-21T00:00:00Z",
       regionCode: "US",
@@ -186,6 +199,7 @@ const searchAndFetchStatistics = async (query) => {
         console.log("\n");
 
         return {
+          id: videoId,
           title: item.snippet.title,
           views: videoStats.views || 0,
           likes: videoStats.likes || 0,
@@ -201,18 +215,17 @@ const searchAndFetchStatistics = async (query) => {
     writeVideosToFile(videoData, query); // Write filtered videos to file
 
     // API call to post in DATABASE
-    // API call to post in DATABASE
-    const responseFromBackend = await axios.post("/api/videos", videoData);
+    // const responseFromBackend = await axios.post("/api/videos", videoData);
 
-    // Handle the response from your backend
-    if (responseFromBackend.status === 201) {
-      console.log("Video data successfully saved to database.");
-    } else {
-      console.error(
-        "Error saving video data to database:",
-        responseFromBackend.data.message
-      );
-    }
+    // // Handle the response from your backend
+    // if (responseFromBackend.status === 201) {
+    //   console.log("Video data successfully saved to database.");
+    // } else {
+    //   console.error(
+    //     "Error saving video data to database:",
+    //     responseFromBackend.data.message
+    //   );
+    // }
 
     return videoData;
   } catch (error) {
@@ -229,4 +242,4 @@ const searchAndFetchStatistics = async (query) => {
 // topTwoTrends.forEach((trend) => {
 //   searchAndFetchStatistics(trend);
 // });
-searchAndFetchStatistics("money");
+searchAndFetchStatistics("artificial intelligence");

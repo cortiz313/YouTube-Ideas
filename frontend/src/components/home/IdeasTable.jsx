@@ -3,7 +3,7 @@ import { AiOutlineEdit } from "react-icons/ai";
 import { BsInfoCircle } from "react-icons/bs";
 import { MdOutlineAddBox, MdOutlineDelete } from "react-icons/md";
 
-export const IdeasTable = ({ ideas }) => {
+export const IdeasTable = ({ videos }) => {
   return (
     <table className="w-full border-separate border-spacing-2">
       <thead>
@@ -30,32 +30,41 @@ export const IdeasTable = ({ ideas }) => {
         </tr>
       </thead>
       <tbody>
-        {ideas.map((idea, index) => (
-          <tr key={idea._id} className="h-8">
+        {videos.map((video, index) => (
+          <tr key={video.id} className="h-8">
             <td className="border border-slate-700 rounded-md text-center">
               {index + 1}
             </td>
             <td className="border border-slate-700 rounded-md text-center">
-              {idea.title}
+              {video.title}
             </td>
             <td className="border border-slate-700 rounded-md text-center">
-              {idea.viewsMedian}
+              {video.views}
             </td>
             <td className="border border-slate-700 rounded-md text-center max-md:hidden">
-              {idea.likesMedian}
+              {video.likes}
             </td>
             <td className="border border-slate-700 rounded-md text-center max-md:hidden">
-              {idea.commentsMedian}
+              {video.comments}
+            </td>
+            <td className="border border-slate-700 rounded-md text-center max-md:hidden">
+              {video.uploadDate}
+            </td>
+            <td className="border border-slate-700 rounded-md text-center max-md:hidden">
+              {video.subscribers}
+            </td>
+            <td className="border border-slate-700 rounded-md text-center max-md:hidden">
+              {video.moreViewsThanSubscribers ? "Yes" : "No"}
             </td>
             <td className="border border-slate-700 rounded-md text-center">
               <div className="flex justify-center gap-x-4">
-                <Link to={`/ideas/details/${idea._id}`}>
+                <Link to={`/ideas/details/${video.id}`}>
                   <BsInfoCircle className="text-2xl text-green-800" />
                 </Link>
-                <Link to={`/ideas/edit/${idea._id}`}>
+                <Link to={`/ideas/edit/${video.id}`}>
                   <AiOutlineEdit className="text-2xl text-yellow-600" />
                 </Link>
-                <Link to={`/ideas/delete/${idea._id}`}>
+                <Link to={`/ideas/delete/${video.id}`}>
                   <MdOutlineDelete className="text-2xl text-red-600" />
                 </Link>
               </div>

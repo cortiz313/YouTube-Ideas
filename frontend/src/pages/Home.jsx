@@ -68,7 +68,7 @@ export const Home = () => {
       {loading ? (
         <Spinner />
       ) : showType === "table" ? (
-        <IdeasTable ideas={ideas} />
+        <IdeasTable videos={videos} />
       ) : (
         <IdeasCard ideas={ideas} />
       )}

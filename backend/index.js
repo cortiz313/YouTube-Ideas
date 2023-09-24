@@ -4,6 +4,12 @@ import mongoose from "mongoose";
 import { Idea } from "./models/ideaModel.js";
 import ideasRoute from "./routes/ideasRoute.js";
 import cors from "cors";
+import { readFileSync } from "fs";
+import { fileURLToPath } from "url";
+import path from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -65,10 +71,16 @@ app.get("/", (request, response) => {
 
 app.get("/api/videos", (req, res) => {
   try {
-    const videoData = JSON.parse(fs.readFileSync("google_step_data.json"));
-    res.json(videoData);
+    const filePath = path.resolve(__dirname, "../ai_video_data.json");
+    const videoData = JSON.parse(readFileSync(filePath));
+    //const videoData = JSON.parse(readFileSync(filePath));
+    //res.json(videoData);
+    return res.status(200).json({
+      count: videoData.length,
+      data: videoData,
+    });
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json(error.message);
   }
 });
 
