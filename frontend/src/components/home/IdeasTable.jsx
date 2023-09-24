@@ -10,12 +10,21 @@ export const IdeasTable = ({ ideas }) => {
         <tr>
           <th className="border border-slate-600 rounded-md">No</th>
           <th className="border border-slate-600 rounded-md">Title</th>
-          <th className="border border-slate-600 rounded-md">Views Median</th>
+          <th className="border border-slate-600 rounded-md">Views</th>
           <th className="border border-slate-600 rounded-md max-md:hidden">
-            Likes Median
+            Likes
           </th>
           <th className="border border-slate-600 rounded-md max-md:hidden">
-            Comments Median
+            Comments
+          </th>
+          <th className="border border-slate-600 rounded-md max-md:hidden">
+            Upload Date
+          </th>
+          <th className="border border-slate-600 rounded-md max-md:hidden">
+            Subscribers
+          </th>
+          <th className="border border-slate-600 rounded-md max-md:hidden">
+            More Views Than Subs
           </th>
           <th className="border border-slate-600 rounded-md">Operations</th>
         </tr>

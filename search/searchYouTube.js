@@ -1,5 +1,6 @@
 const { exec } = require("child_process");
 const path = require("path");
+const axios = require("axios");
 
 const fetchTrendsScriptPath = path.join(
   __dirname,
@@ -200,6 +201,18 @@ const searchAndFetchStatistics = async (query) => {
     writeVideosToFile(videoData, query); // Write filtered videos to file
 
     // API call to post in DATABASE
+    // API call to post in DATABASE
+    const responseFromBackend = await axios.post("/api/videos", videoData);
+
+    // Handle the response from your backend
+    if (responseFromBackend.status === 201) {
+      console.log("Video data successfully saved to database.");
+    } else {
+      console.error(
+        "Error saving video data to database:",
+        responseFromBackend.data.message
+      );
+    }
 
     return videoData;
   } catch (error) {

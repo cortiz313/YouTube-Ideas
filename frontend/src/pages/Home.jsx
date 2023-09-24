@@ -12,6 +12,7 @@ import IdeasCard from "../components/home/IdeasCard";
 
 export const Home = () => {
   const [ideas, setIdeas] = useState([]);
+  const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showType, setShowType] = useState("table");
   useEffect(() => {
@@ -20,6 +21,20 @@ export const Home = () => {
       .get("http://localhost:5555/ideas")
       .then((response) => {
         setIdeas(response.data.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get("http://localhost:5555/api/videos")
+      .then((response) => {
+        setVideos(response.data.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -45,7 +60,7 @@ export const Home = () => {
         </button>
       </div>
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl my-8">Ideas List</h1>
+        <h1 className="text-3xl my-8">Videos List</h1>
         <Link to="/ideas/create">
           <MdOutlineAddBox className="text-sky-800 text-4xl" />
         </Link>

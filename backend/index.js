@@ -23,6 +23,40 @@ app.use(cors());
 //   })
 // );
 
+app.post("/api/videos", async (req, res) => {
+  try {
+    if (
+      !req.body.title ||
+      !req.body.views ||
+      !req.body.likes ||
+      !req.body.comments ||
+      !req.body.uploadDate ||
+      !req.body.moreViewsThanSubscribers ||
+      !req.body.subscribers
+    ) {
+      return res.status(400).send({
+        message: "Required fields are missing.",
+      });
+    }
+
+    // Assuming you have a Video model and database set up
+    const video = await Video.create({
+      title: req.body.title,
+      views: req.body.views,
+      likes: req.body.likes,
+      comments: req.body.comments,
+      uploadDate: req.body.uploadDate,
+      moreViewsThanSubscribers: req.body.moreViewsThanSubscribers,
+      subscribers: req.body.subscribers,
+    });
+
+    return res.status(201).send(video);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+});
+
 // Route for / without anything else for testing
 app.get("/", (request, response) => {
   console.log(request);
